@@ -2,36 +2,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int dp[500][500]={0,};
+
 
 int main(){
 	ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 	cout.tie(nullptr);
-	
+    
     int n;
-    int maxnum=0;
-    cin>>n;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<=i;j++){
-            cin>>dp[i][j];
-        }
+	cin >> n;
+	vector<int>arr(n);
+	vector<int>dp(n, 0);
+	for (int i = 0; i < n; i++){
+        cin >> arr[i];
     }
-    for(int i=0;i<n;i++){
-        for(int j=0;j<=i;j++){
-            if(j==0){
-                dp[i][j]=dp[i-1][0]+dp[i][j];
-            }
-            else if(i==j){
-                dp[i][j]=dp[i-1][j-1]+dp[i][j];
-            }
-            else{
-                dp[i][j]=max(dp[i-1][j-1]+dp[i][j],dp[i-1][j]+dp[i][j]);
-            }
-            maxnum=max(maxnum,dp[i][j]);
-        }
-    }
-    cout<<maxnum;
+    
+    dp[0] = arr[0];
+	dp[1] = arr[0] + arr[1];
+	dp[2] = max(arr[0] + arr[2], arr[1] + arr[2]);
+	for (int i = 3; i < n; i++) {
+		dp[i] = max(dp[i - 3] + arr[i - 1] + arr[i], dp[i - 2] + arr[i]);
+	}
+    
+    cout << dp[n - 1] << '\n';
 }
 
 
